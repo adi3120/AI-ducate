@@ -3,7 +3,7 @@
     function getExplanation(topic) {
         document.getElementById('loading').style.display = 'block';
         $.ajax({
-            url: "{%url 'get_explanation'%}",
+            url: "{%url 'get_explanation' %}",
             data: {
                 topic: topic
             },
@@ -29,7 +29,7 @@
         console.log("HELLO")
         document.getElementById('loading').style.display = 'block';
         $.ajax({
-            url: "{%url 'get_answer'%}",
+            url: "{%url 'get_answer' %}",
             data: {
                 query: query
             },
