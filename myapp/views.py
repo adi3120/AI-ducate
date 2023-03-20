@@ -6,7 +6,7 @@ from django.http import JsonResponse
 def index(request):
     return render(request,"myapp/index.html")
 
-API_KEY="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"
+API_KEY="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"
 
 def get_explanation(request):
     topic = request.GET.get('topic')
