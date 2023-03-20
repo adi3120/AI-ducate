@@ -1,0 +1,392 @@
+{% extends 'myapp/base.html' %} {% load static %} {% block title %}Home{% endblock title %} {% block index %}
+<script>
+    function getExplanation(topic) {
+        document.getElementById('loading').style.display = 'block';
+        $.ajax({
+            url: "{%url 'get_explanation'%}",
+            data: {
+                topic: topic
+            },
+            dataType: 'json',
+            success: function(data) {
+                document.getElementById('loading').style.display = 'none';
+                // Update the chatbot messages with the generated explanation
+                var explanation = data.explanation;
+                console.log(explanation)
+                var message = '<div class="message-body border m-3"><p class="message-text p-2"><span class="btn btn-primary p-1 rounded">Bot: </span> ' + explanation + '</p><span class="message-time">' + ` <div class="explandingNote btn btn-outline-success p-1"><img src="{%static 'myapp/images/save.png' %}" width="25" height="25" alt=""> <a href="https://note-store-django.vercel.app/" target="_blank">Save to notes</a>
+                                    </div>` + '</span></div>';
+                $('.card-body').append(message);
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                document.getElementById('loading').style.display = 'none';
+                console.error(error);
+            }
+        });
+    }
+
+    function askGPT(query) {
+        console.log("HELLO")
+        document.getElementById('loading').style.display = 'block';
+        $.ajax({
+            url: "{%url 'get_answer'%}",
+            data: {
+                query: query
+            },
+            dataType: 'json',
+            success: function(data) {
+                document.getElementById('loading').style.display = 'none';
+                // Update the chatbot messages with the generated explanation
+                var explanation = data.explanation;
+                console.log(explanation)
+                var message = '<div class="message-body border m-3"><p class="message-text p-2"><span class="btn btn-primary p-1 rounded">Bot: </span> ' + explanation + '</p><span class="message-time">' + getTime() + '</span></div>';
+                $('.card-body').append(message);
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                document.getElementById('loading').style.display = 'none';
+                console.error(error);
+            }
+        });
+    }
+</script>
+
+<style>
+    a {
+        text-decoration: none;
+        color: black;
+    }
+    
+    #loading {
+        background-blend-mode: difference;
+    }
+</style>
+<div class="container-fluid">
+
+
+
+    <div class="d-flex justify-content-evenly border border-5" style="height:80vh;">
+        <div class="left w-50 h-100 border border-2 card border-dark-subtle">
+            <h3 class="text-center card-header bg-success text-bg-warning text-white p-2">Quick Learn</h3>
+            <div class="container text-center p-4" style="width: fit-content;">
+                <div class="row border p-2 border-dark-subtle">
+                    <div class="col">
+                        <b><h3>Class 12</h3></b>
+                        <div class="row">
+
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Physics - Beginner</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="mechanics" href="#">Mechanics</a>
+                                        <a class="dropdown-item" id="thermodynamics" href="#">Thermodynamics</a>
+                                        <a class="dropdown-item" id="optics" href="#">Optics</a>
+                                        <a class="dropdown-item" id="electromagnetism" href="#">Electromagnetism</a>
+                                        <a class="dropdown-item" id="modern_physics" href="#">Modern Physics</a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle list-group-item list-group-item-action border-dark-subtle" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Physics - Intermediate</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="ECF" href="#">Electric Charges and Fields</a>
+                                        <a class="dropdown-item" id="EPC" href="#">Electrostatic Potential and Capacitance</a>
+                                        <a class="dropdown-item" id="CE" href="#">Current Electricity</a>
+                                        <a class="dropdown-item" id="MCAC" href="#">Moving Charges and Magnetism</a>
+                                        <a class="dropdown-item" id="MAM" href="#">Magnetism and Matter</a>
+                                        <a class="dropdown-item" id="EI" href="#">Electromagnetic Induction</a>
+                                        <a class="dropdown-item" id="AC" href="#">Alternating Current</a>
+                                        <a class="dropdown-item" id="EW" href="#">Electromagnetic Waves</a>
+                                        <a class="dropdown-item" id="ROAOI" href="#">Ray Optics and Optical Instruments</a>
+                                        <a class="dropdown-item" id="WO" href="#">Wave Optics</a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle list-group-item list-group-item-action border-dark-subtle" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Physics - Advance</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="EWadv" href="#">Electromagnetic Waves</a>
+                                        <a class="dropdown-item" id="DNOMAR" href="#">Dual Nature of Matter and Radiation</a>
+                                        <a class="dropdown-item" id="ATOM" href="#">Atoms</a>
+                                        <a class="dropdown-item" id="NUC" href="#">Nuclei</a>
+                                        <a class="dropdown-item" id="SE" href="#">Semiconductor Electronics</a>
+                                        <a class="dropdown-item" id="CS" href="#">Communication Systems</a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                        </div>
+
+                        <div class="row p-4">
+
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chemistry - Beginner</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="TSOA" href="#">The structure of atoms</a>
+                                        <a class="dropdown-item" id="TPT" href="#">The periodic table</a>
+                                        <a class="dropdown-item" id="BOND" href="#">Bonding</a>
+                                        <a class="dropdown-item" id="REAC" href="#">Reactions</a>
+                                        <a class="dropdown-item" id="STOIC" href="#">Stoichiometry</a>
+                                        <a class="dropdown-item" id="ANB" href="#">Acids and bases</a>
+                                        <a class="dropdown-item" id="THERMOC" href="#">Thermochemistry</a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chemistry - Intermediate</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="CHEMINT1" href="#">Intermolecular Forces</a>
+                                        <a class="dropdown-item" id="CHEMINT2" href="#">Colligative Properties</a>
+                                        <a class="dropdown-item" id="CHEMINT3" href="#">Chemical Equilibrium</a>
+                                        <a class="dropdown-item" id="CHEMINT4" href="#">Acid-Base Equilibria</a>
+                                        <a class="dropdown-item" id="CHEMINT5" href="#">Thermodynamics</a>
+                                        <a class="dropdown-item" id="CHEMINT6" href="#">Chemical Kinetics</a>
+                                        <a class="dropdown-item" id="CHEMINT7" href="#">Catalysis</a>
+                                        <a class="dropdown-item" id="CHEMINT8" href="#">Surface Chemistry</a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chemistry - Advance</button>
+
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="CHEMAD1" href="#">Organic chemistry - natural products</a>
+                                        <a class="dropdown-item" id="CHEMAD2" href="#">Organic chemistry - hydrocarbons</a>
+                                        <a class="dropdown-item" id="CHEMAD3" href="#">Organic chemistry - other functional groups</a>
+                                        <a class="dropdown-item" id="CHEMAD4" href="#">Thermodynamics</a>
+                                        <a class="dropdown-item" id="CHEMAD5" href="#">Redox Reactions and Electrochemistry</a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Maths - Beginner</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="MATHBEG1" href="#"> Algebra</a>
+                                        <a class="dropdown-item" id="MATHBEG2" href="#">Functions</a>
+                                        <a class="dropdown-item" id="MATHBEG3" href="#">Quadratic equations</a>
+                                        <a class="dropdown-item" id="MATHBEG4" href="#">Sets, relations and functions</a>
+                                        <a class="dropdown-item" id="MATHBEG5" href="#">Binomial theorem</a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Maths - Intermediate</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="MATHINT1" href="#">Trigonometric functions and their inverses</a>
+                                        <a class="dropdown-item" id="MATHINT2" href="#">Complex numbers</a>
+                                        <a class="dropdown-item" id="MATHINT3" href="#">Quadratic equations</a>
+                                        <a class="dropdown-item" id="MATHINT4" href="#">Sequences and series</a>
+                                        <a class="dropdown-item" id="MATHINT5" href="#">Probability</a>
+
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Maths - Advance</button>
+
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="MATHADV1" href="#">Calculus</a>
+                                        <a class="dropdown-item" id="MATHADV2" href="#">Discrete Mathematics</a>
+                                        <a class="dropdown-item" id="MATHADV3" href="#">Geometry</a>
+                                        <a class="dropdown-item" id="MATHADV4" href="#">Number Theory</a>
+                                        <a class="dropdown-item" id="MATHADV5" href="#">Statistics</a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="container text-center border-dark-subtle" style="width: fit-content;">
+                <div class="row border p-2 border-dark-subtle">
+                    <div class="col">
+                        <h3>Class 11</h3>
+                        <div class="row">
+
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Physics - Beginner</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="11PHYBEG1" href="#">Electricity and magnetism</a>
+                                        <a class="dropdown-item" id="11PHYBEG2" href="#">Light</a>
+                                        <!-- <a class="dropdown-item" id="11PHYBEG3" href="#">Atoms and nuclei</a>
+                                        <a class="dropdown-item" id="11PHYBEG4" href="#">Quantum physics</a>
+                                        <a class="dropdown-item" id="11PHYBEG5" href="#">Theoretical physics</a> -->
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Physics - Intermediate</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="11PHYINT1" href="#">Gravitation</a>
+                                        <a class="dropdown-item" id="11PHYINT2" href="#">Waves</a>
+                                        <!-- <a class="dropdown-item" id="11PHYINT3" href="#">Current Electricity</a>
+                                        <a class="dropdown-item" id="11PHYINT4" href="#">Moving Charges and Magnetism</a>
+                                        <a class="dropdown-item" id="11PHYINT5" href="#">Magnetism and Matter</a>
+                                        <a class="dropdown-item" id="11PHYINT6" href="#">Electromagnetic Induction</a>
+                                        <a class="dropdown-item" id="11PHYINT7" href="#">Alternating Current</a>
+                                        <a class="dropdown-item" id="11PHYINT8" href="#">Electromagnetic Waves</a>
+                                        <a class="dropdown-item" id="11PHYINT9" href="#">Ray Optics and Optical Instruments</a>
+                                        <a class="dropdown-item" id="11PHYINT10" href="#">Wave Optics</a> -->
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Physics - Advance</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="11PHYADV1" href="#">Quantum mechanics</a>
+                                        <a class="dropdown-item" id="11PHYADV2" href="#">Rotational motion</a>
+                                        <!-- <a class="dropdown-item" id="ATOM" href="#">Atoms</a>
+                                        <a class="dropdown-item" id="NUC" href="#">Nuclei</a>
+                                        <a class="dropdown-item" id="SE" href="#">Semiconductor Electronics</a>
+                                        <a class="dropdown-item" id="CS" href="#">Communication Systems</a> -->
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                        </div>
+
+                        <div class="row p-4">
+
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chemistry - Beginner</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="11CHEMBEG1" href="#">The structure of the atom</a>
+                                        <a class="dropdown-item" id="11CHEMBEG2" href="#">Chemical bonds</a>
+
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chemistry - Intermediate</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="11CHEMINT1" href="#">Intermolecular forces</a>
+                                        <a class="dropdown-item" id="11CHEMINT2" href="#">Redox reactions</a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chemistry - Advance</button>
+
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="11CHEMAD1" href="#">Organic chemistry</a>
+                                        <a class="dropdown-item" id="11CHEMAD2" href="#">Thermodynamics </a>
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Maths - Beginner</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="11MATHBEG1" href="#"> Sets and Functions</a>
+                                        <a class="dropdown-item" id="11MATHBEG2" href="#">Principle of Mathematical Induction</a>
+
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Maths - Intermediate</button>
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="11MATHINT1" href="#">Trigonometric Functions</a>
+                                        <a class="dropdown-item" id="11MATHINT2" href="#">Calculus</a>
+
+
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                            <div class="col list-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary border-dark-subtle dropdown-toggle list-group-item list-group-item-action" type="button" id="physicsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Maths - Advance</button>
+
+                                    <div class="dropdown-menu" aria-labelledby="physicsDropdown">
+                                        <a class="dropdown-item" id="11MATHADV1" href="#">Vectors</a>
+                                        <a class="dropdown-item" id="11MATHADV2" href="#">Introduction to Three-dimensional Geometry</a>
+
+                                    </div>
+                                </div>
+                                <!-- Add more dropdowns for each subject -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="right w-50 h-100 border border-2">
+
+            <div class="container h-100">
+                <div class="row h-100">
+                    <div class="col w-100 h-100">
+                        <div class="card h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h3>Learning Bot</h3>
+                            </div>
+                            <div class="card-body overflow-scroll">
+                                <div class="message-body border p-2">
+
+                                    <p class="message-text"><span class="btn btn-primary p-1 rounded">Bot: </span> Hi, how can I help you?</p>
+                                    <span class="message-time"></span>
+
+                                </div>
+
+                                <!-- More chat messages go here -->
+                            </div>
+                            <div id="loading" style="display:none;">
+                                <img src="{%static 'myapp/images/loading.gif'%}" width="100" height="100">
+                            </div>
+                            <div class="card-footer chat-input d-flex">
+                                <input type="text" id="userq" class="form-control" placeholder="Type your message...">
+                                <button class="btn btn-primary" id="chatsend">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+</div>
+{%endblock index%}

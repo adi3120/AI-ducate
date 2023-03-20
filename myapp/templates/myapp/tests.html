@@ -1,0 +1,97 @@
+{% extends 'myapp/base.html' %} {% load static %} {% block title %}TestGen{% endblock title %} {% block test %}
+
+<script>
+    function getQuestions(topic) {
+        document.getElementById('loading').style.display = 'block';
+        $.ajax({
+            url: "{%url 'get_questions' %}",
+            data: {
+                topic: topic
+            },
+            dataType: 'json',
+            success: function(data) {
+                document.getElementById('loading').style.display = 'none';
+                // Update the chatbot messages with the generated explanation
+                var questions = data.questions;
+                var message = '<div class="message-body border m-3"><p class="message-text p-2"><span class="btn btn-primary p-1 rounded">Bot: </span> ' + questions + '</p><span class="message-time">' + '</span></div>';
+                $('.card-body').append(message);
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                document.getElementById('loading').style.display = 'none';
+                console.error(error);
+            }
+        });
+    }
+</script>
+<div class="d-flex justify-content-evenly border border-5" style="height:80vh;">
+    <div class="left w-50 h-100 border border-2 card border-dark-subtle">
+        <h3 class="text-center card-header bg-success text-bg-warning text-white p-2">Test Generator</h3>
+        <form class="w-100 p-5">
+            <div class="mb-3">
+                <label for="topic" class="form-label">Test Topic</label>
+                <input type="text" class="form-control" id="topic" aria-describedby="emailHelp" required>
+            </div>
+            <br> Type of questions
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="numerical">
+                <label class="form-check-label" for="numerical">
+				  Numerical
+				</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="theory" checked>
+                <label class="form-check-label" for="theory">
+				  Theory
+				</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="mixed">
+                <label class="form-check-label" for="mixed">
+				  Mixed
+				</label>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="noq" class="form-label">Number of Questions</label>
+                <input type="number" class="form-control" id="noq" required>
+            </div>
+
+
+            <button type="button" id="testsubmit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <div class="right w-50 h-100 border border-2">
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="col w-100 h-100">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h3>Learning Bot</h3>
+                        </div>
+                        <div class="card-body overflow-scroll">
+                            <div class="message-body border p-2">
+
+                                <p class="message-text"><span class="btn btn-primary p-1 rounded"></span></p>
+                                <span class="message-time"></span>
+
+                            </div>
+
+                            <!-- More chat messages go here -->
+                        </div>
+                        <div id="loading" style="display:none;">
+                            <img src="{%static 'myapp/images/loading.gif'%}" width="100" height="100">
+                        </div>
+                        <div class="card-footer chat-input d-flex">
+                            <input type="text" id="userq" class="form-control" placeholder="Type your message...">
+                            <button class="btn btn-primary" id="chatsend">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{%endblock test%}
