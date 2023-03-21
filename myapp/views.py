@@ -1,12 +1,14 @@
 from django.shortcuts import render
 import openai
-
+import os
 from django.http import JsonResponse
 
 def index(request):
     return render(request,"myapp/index.html")
 
-API_KEY="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"
+API_KEY="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"
+
+# API_KEY=os.environ.get('API_KEY')
 
 def get_explanation(request):
     topic = request.GET.get('topic')
